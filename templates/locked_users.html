@@ -38,7 +38,7 @@
         <td>{{ user.mail }}</td>
         <td>
           <form action="/actions/unlock_user" method="post" style="display: inline;">
-            <input type="hidden" name="username" value="{{ user.distinguishedName }}">
+            <input type="hidden" name="user_dn" value="{{ user.distinguishedName }}">
             <button type="submit" class="btn btn-sm btn-warning">
               Unlock
             </button>

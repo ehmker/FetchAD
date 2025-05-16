@@ -10,8 +10,9 @@ def date_time_to_windows_filetime(dt: datetime) -> int:
     return int((dt - WINDOWS_EPOCH).total_seconds() * 10**7)
 
 def unlock_user(user_dn: str) -> bool:
-    with ldap_connection as conn:
-        success = conn.modify(user_dn, {"lockoutTime": [(MODIFY_REPLACE, ["0"])]})
+    with ldap_connection() as conn:
+        if conn.bind():
+            success = conn.modify(user_dn, {"lockoutTime": [(MODIFY_REPLACE, ["0"])]})
 
     return success
 
