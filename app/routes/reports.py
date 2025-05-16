@@ -2,6 +2,8 @@ from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.auth import get_current_user
+from app.services.ad_actions import get_locked_users
+
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
@@ -13,20 +15,22 @@ def locked_users(request: Request):
     if not user:
         return RedirectResponse("/login", status_code=302)
     # Mocked data - replace later with real LDAP or AD queries
-    locked_users_data = [
-        {
-            "username": "jdoe",
-            "name": "John Doe",
-            "email": "jdoe@email.com",
-            "status": "Locked Out",
-        },
-        {
-            "username": "asmith",
-            "name": "Alice Smith",
-            "email": "asmith@email.com",
-            "status": "Locked Out",
-        },
-    ]
+    # locked_users_data = [
+    #     {
+    #         "username": "jdoe",
+    #         "name": "John Doe",
+    #         "email": "jdoe@email.com",
+    #         "status": "Locked Out",
+    #     },
+    #     {
+    #         "username": "asmith",
+    #         "name": "Alice Smith",
+    #         "email": "asmith@email.com",
+    #         "status": "Locked Out",
+    #     },
+    # ]
+    locked_users_data = get_locked_users()
+
     return templates.TemplateResponse(
         "locked_users.html",
         {"request": request, "user": user, "locked_users": locked_users_data},

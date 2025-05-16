@@ -1,8 +1,14 @@
-from ldap3 import Server, Connection, ALL
+from ldap3 import Server, Connection, ALL, NTLM
 from contextlib import contextmanager
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+AD_SERVER = os.getenv('AD_SERVER')
+AD_USER = os.getenv('USER_NAME')
+AD_PASSWORD = os.getenv('PW')
 
+@contextmanager
 def ldap_connection():
     conn = get_ldap_connection()
     try:
@@ -12,10 +18,12 @@ def ldap_connection():
 
 
 def get_ldap_connection() -> Connection:
-    # Replace with actual connection
-    server = Server()
-    conn = Connection()
-
+    # Function returns a connection object to perform ldap actions with
+    try: 
+        server = Server(AD_SERVER, get_info=ALL)
+        conn = Connection(server, user=AD_USER, password=AD_PASSWORD, authentication='NTLM')
+    except Exception as e:
+        print('an error occured getting ldap connection:', e)
     return conn
 
 
