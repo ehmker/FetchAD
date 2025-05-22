@@ -36,8 +36,8 @@
         <td>{{ user.sAMAccountName }}</td>
         <td>{{ user.displayName }}</td>
         <td>{{ user.mail }}</td>
-        <td>
-          <form action="/actions/unlock_user" method="post" style="display: inline;">
+        <td  style="text-align: center;">
+          <form action="/actions/unlock_user" method="post">
             <input type="hidden" name="user_dn" value="{{ user.distinguishedName }}">
             <button type="submit" class="btn btn-sm btn-warning">
               Unlock

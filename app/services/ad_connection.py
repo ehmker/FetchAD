@@ -31,3 +31,5 @@ def get_ldap_connection() -> Connection:
 def get_all_users():
     # Placeholder — later this will run ldap3 queries
     return [{"username": "jsmith"}, {"username": "adoe"}]
+
+
