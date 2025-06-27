@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import json
 
 BASE_DN = 'DC=CO,DC=ITASCA'
-ITASC_USERS_DN = 'OU=Itasca Users,DC=CO,DC=ITASCA'
+ITASCA_USERS_DN = 'OU=Itasca Users,DC=CO,DC=ITASCA'
 
 
 
@@ -56,7 +56,7 @@ def get_locked_users():
     with ldap_connection() as conn:
         if conn.bind():
             conn.search(
-                search_base=ITASC_USERS_DN,
+                search_base=ITASCA_USERS_DN,
                 search_filter=SEARCH_FILTER,
                 search_scope=SUBTREE,
                 attributes=['sAMAccountName','displayName', 'mail', 'distinguishedName']
@@ -65,7 +65,6 @@ def get_locked_users():
                 return conn.entries
             else:
                 return []
-
 
 def get_expired_users():
     days_to_expiration = 7
@@ -87,7 +86,7 @@ def get_expired_users():
     with ldap_connection() as conn:
         if conn.bind():
             conn.search(
-                search_base=ITASC_USERS_DN,
+                search_base=ITASCA_USERS_DN,
                 search_filter=SEARCH_FILTER,
                 search_scope=SUBTREE,
                 attributes=['sAMAccountName','displayName', 'mail', 'pwdLastSet', 'department']
