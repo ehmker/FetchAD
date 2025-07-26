@@ -14,21 +14,7 @@ def locked_users(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    # Mocked data - replace later with real LDAP or AD queries
-    # locked_users_data = [
-    #     {
-    #         "username": "jdoe",
-    #         "name": "John Doe",
-    #         "email": "jdoe@email.com",
-    #         "status": "Locked Out",
-    #     },
-    #     {
-    #         "username": "asmith",
-    #         "name": "Alice Smith",
-    #         "email": "asmith@email.com",
-    #         "status": "Locked Out",
-    #     },
-    # ]
+    
     locked_users_data = get_locked_users()
 
     return templates.TemplateResponse(
