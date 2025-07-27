@@ -51,10 +51,10 @@
       <tbody>
         {% for user in expired_users %}
         <tr>
-          <td>{{ user.sAMAccountName | first }}</td>
-          <td>{{ user.displayName | first }}</td>
-          <td>{{ user.department | first}}</td>
-          <td>{{ user.mail | first }}</td>
+          <td>{{ user.sAMAccountName}}</td>
+          <td>{{ user.displayName}}</td>
+          <td>{{ user.department }}</td>
+          <td>{{ user.mail}}</td>
           <td data-order="{{ user.expire_on.isoformat() }}">{{ user.expire_on.strftime('%b %d, %Y') }} ({{ user.days_left }})</td>
           <td>{%if user.status == "Expired"%}
               <span class="badge bg-danger">Expired</span>

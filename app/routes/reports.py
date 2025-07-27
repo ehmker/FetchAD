@@ -24,14 +24,14 @@ def locked_users(request: Request, session=Depends(require_auth)):
 
 
 @router.get("/report/expired_password_users", response_class=HTMLResponse)
-def expired_users(request: Request):
-    user = get_current_user(request)
-    if not user:
-        return RedirectResponse("/login", status_code=302)
-
-    expired_users_data = get_expired_users()
+def expired_users(request: Request, session=Depends(require_auth)):
+    expired_users_data = get_expired_users(*extract_credentials(session))
 
     return templates.TemplateResponse(
         "expired_users.html",
-        {"request": request, "user": user, "expired_users": expired_users_data},
+        {
+            "request": request,
+            "user": session["username"],
+            "expired_users": expired_users_data,
+        },
     )
