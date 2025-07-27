@@ -4,32 +4,37 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-AD_SERVER = os.getenv('AD_SERVER')
-AD_USER = os.getenv('USER_NAME')
-AD_PASSWORD = os.getenv('PW')
+DOMAIN = os.getenv("DOMAIN")
+AD_SERVER = os.getenv("AD_SERVER")
+
 
 @contextmanager
-def ldap_connection():
-    conn = get_ldap_connection()
+def ldap_connection(username: str, password: str):
+    conn = get_ldap_connection(username, password)
     try:
         yield conn
     finally:
         conn.unbind()
 
 
-def get_ldap_connection() -> Connection:
+def get_ldap_connection(username: str, password: str) -> Connection:
     # Function returns a connection object to perform ldap actions with
-    try: 
+    try:
         server = Server(AD_SERVER, get_info=ALL)
-        conn = Connection(server, user=AD_USER, password=AD_PASSWORD, authentication='NTLM')
+        conn = Connection(
+            server,
+            user=f"{DOMAIN}\\{username}",
+            password=password,
+            authentication="NTLM",
+        )
+
+        return conn
     except Exception as e:
-        print('an error occured getting ldap connection:', e)
-    return conn
+        print("an error occured getting ldap connection:", e)
+        raise
 
 
 # app/services/ad_service.py
 def get_all_users():
     # Placeholder — later this will run ldap3 queries
     return [{"username": "jsmith"}, {"username": "adoe"}]
-
-
